@@ -74,7 +74,7 @@ router.post('/register', [
     }
 });
 
-/*router.post('/login', function (req, res, next) {
+router.post('/login', function (req, res, next) {
     passport.authenticate('login', {session: false}, (err, user, info) => {
         if (err) {
             res.json({
@@ -89,16 +89,14 @@ router.post('/register', [
             });
         } else {
             req.logIn(user, err => {
-                Model.User.findOne({
-                    where: {
-                        phone: user.phone,
-                    }
+                User.findOne({
+                    email: user.email,
                 }).then(userr => {
                     const token = jwt.sign({ id: userr.phone }, jwtConfig.secret);
                     res.status(200).json({
                         auth: true,
                         token: token,
-                        message: 'connexion réussie',
+                        message: 'connected successfully',
                         user: userr
                     });
                 });
@@ -107,130 +105,16 @@ router.post('/register', [
     })(req, res, next);
 });
 
-router.post('/checkExistenceByPhone', (req, res) => {
-    Model.User.findOne({
-        where: {
-            phone: req.body.phone
-        }
-    })
-        .then(user => {
-            if(!user){
-                return res.json({
-                    status: 'error',
-                    message: 'Cet utilisateur n\'existe pas'
-                })
-            } else {
-                return res.json({
-                    status: 'success',
-                    message: 'Cet utilisateur existe'
-                })
-            }
-        })
-        .catch(error => {
-            return res.json({
-                status: 'error',
-                message: 'Une erreur s\'est produite'
-            })
-        })
-})
 
-router.post('/checkExistenceByEmail', (req, res) => {
-    Model.User.findOne({
-        where: {
-            email: req.body.email
-        }
-    })
-        .then(user => {
-            if(!user){
-                return res.json({
-                    status: 'error',
-                    message: 'Cet utilisateur n\'existe pas'
-                })
-            } else {
-                return res.json({
-                    status: 'success',
-                    message: 'Cet utilisateur existe'
-                })
-            }
-        })
-        .catch(error => {
-            return res.json({
-                status: 'error',
-                message: 'Une erreur s\'est produite'
-            })
-        })
-})
 
-router.post('/getUser', (req, res) => {
-    let finalUser;
-    req.body.status === 'professionnel' ?
-        finalUser = Model.Professionnel :
-        finalUser = Model.Particulier
-    finalUser.findOne({
-        where: {
-            phone: req.body.phone
-        }
-    })
-        .then(fu => {
-            if(!fu){
-                return res.json({
-                    status: 'error',
-                    message: 'Cet utilisateur n\'existe pas'
-                })
-            } else {
-                return res.json(fu)
-            }
-        })
-        .catch(error => {
-            return res.json({
-                status: 'error',
-                message: 'Problème pendant la récupération de l\'utilisateur'
-            })
-        })
 
-})
-
-router.put('/updateToken', [auth], (req, res) => {
-    let user;
-    req.body.status === 'particulier' ?
-        user = Model.Particulier :
-        user = Model.Professionnel
-
-    if(req.body.pushToken !== undefined) {
-        user.update(
-            {pushToken: req.body.pushToken},
-            {
-                where: {phone: req.body.phone}
-            }).then(response => {
-            if (response[0] === 1) {
-                return res.json({
-                    status: 'success',
-                    message: 'Le token a été bien mis à jour'
-                })
-            } else {
-                return res.json({
-                    status: 'error',
-                    message: 'Problème pendant la mise à jour du token'
-                })
-            }
-        }).catch(error => {
-            console.log(error)
-            return res.json({
-                status: 'error',
-                message: 'Problème pendant la mise à jour du token'
-            })
-        })
-    }
-})
-
-router.put('/updateUser/:id', [auth], (req, res) => {
+/*router.put('/updateUser/:id', [auth], (req, res) => {
     let update
     let user
     const id = req.params.id
     req.body.status === 'particulier' ?
         user = Model.Particulier :
         user = Model.Professionnel
-console.log(id + ' ' + req.body.status)
     if(req.body.email !== undefined){
         update = {email: req.body.email}
     } else if(req.body.phone !== undefined){

@@ -24,12 +24,10 @@ passport.use(
         (email, password, done) => {
             try {
                 User.findOne({
-                    where: {
-                        email: email,
-                    },
+                    email: email,
                 }).then(user => {
                     if (user === null) {
-                        return done(null, false, { message: 'numéro de téléphone érroné' });
+                        return done(null, false, { message: 'adresse email érronée' });
                     } else {
                         bcrypt.compare(password, user.password).then(response => {
                             if (response !== true) {
