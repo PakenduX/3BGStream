@@ -1,0 +1,12 @@
+.videoContainer{
+	margin-left: 15%;
+	margin-right: 15%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+
+.playerContainer{
+	margin-bottom: 30px;
+}

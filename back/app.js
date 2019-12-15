@@ -6,6 +6,7 @@ const cors = require('cors')
 const passport = require('passport')
 const authSilo = require('./silo/AuthSilo');
 require('./security/passport')
+const videoSilo = require('./silo/VideoSilo')
 //require('./models/playListDBConnect')
 //require('./models/userDBConnect')
 
@@ -25,5 +26,6 @@ app.use(cookieParser());
 app.use(passport.initialize())
 
 app.use('/auth', authSilo);
+app.use('/video', videoSilo);
 
 module.exports = app;

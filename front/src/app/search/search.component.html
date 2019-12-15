@@ -1,9 +1,27 @@
-<div layout-align="center center">
-    <form>
-      <mat-form-field>
-        <label>
-          <input matInput placeholder="Type a word" >
-        </label>
+<div fxLayoutAlign="center" style="margin-top: 50px; height: 10px; margin-bottom: 200px">
+    <form style="width: 70%;">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <input
+			matInput
+			placeholder="Search for a video"
+			#query
+			(keyup.enter)="search(query.value)"
+		>
+        <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
+      <div fxLayoutAlign="end">
+        <button
+			mat-flat-button
+			color="accent"
+			(click)="search(query.value)"
+		>
+			Search
+		</button>
+      </div>
     </form>
+</div>
+<div class="videoContainer">
+	<div class="playerContainer" *ngFor="let video of videos">
+		<app-video-component [video]="video"></app-video-component>
+	</div>
 </div>

@@ -5,7 +5,7 @@ let User = require('../models/User')
 const bcrypt = require('bcrypt')
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
-const jwtConfig = require('../security/jwtConfig')
+const jwtConfig = require('../security/Config')
 const auth = require('../security/Authentication')
 const UserDB = require('../models/userDBConnect')
 
