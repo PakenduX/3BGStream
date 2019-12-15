@@ -4,8 +4,8 @@ const passportJWT = require("passport-jwt");
 const JWTStrategy   = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const jwtConfig = require('./Config')
-let User = require('../models/User')
 const bcrypt = require('bcrypt')
+const UserDB = require('../models/userDBConnect')
 
 /**
  * Passport authentication strategies
@@ -21,10 +21,12 @@ passport.use(
             passwordField: 'password',
             session: false,
         },
-        (email, password, done) => {
+        async (email, password, done) => {
+            const connection = await new UserDB().getConnection()
+            const collection = connection.collection('users')
             try {
-                User.findOne({
-                    email: email,
+                collection.findOne({
+                    email: email
                 }).then(user => {
                     if (user === null) {
                         return done(null, false, { message: 'adresse email érronée' });
@@ -52,12 +54,12 @@ const opts = {
 
 passport.use(
     'jwt',
-    new JWTStrategy(opts, (jwt_payload, done) => {
+    new JWTStrategy(opts, async (jwt_payload, done) => {
         try {
-            User.findOne({
-                where: {
-                    email: jwt_payload.id,
-                },
+            const connection = await new UserDB().getConnection()
+            const collection = connection.collection('users')
+            collection.findOne({
+                email: jwt_payload.id,
             }).then(user => {
                 if (user) {
                     // note the return removed with passport JWT - add this return for passport local

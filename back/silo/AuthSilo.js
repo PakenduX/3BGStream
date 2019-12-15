@@ -9,9 +9,6 @@ const jwtConfig = require('../security/Config')
 const auth = require('../security/Authentication')
 const UserDB = require('../models/userDBConnect')
 
-const connection = new UserDB().getConnection()
-const collection = connection.collection('users')
-
 /**
  * User routes (register, auth ...)
  * @author 3BGTeam
@@ -36,30 +33,30 @@ router.post('/register', [
         .isLength({min: 6})
         .withMessage('Le mot de passe doit contenir au moins 6 caractères'),
 
-], (req, res) => {
+], async (req, res) => {
     let errors = validationResult(req);
     if (!errors.isEmpty()){
         return res.json({ errors: errors.array() });
     } else {
-
         const password = bcrypt.hashSync(req.body.password, 10)
-
         let user = new User({
             nom: req.body.nom,
             prenom: req.body.prenom,
             email: req.body.email,
             password: password
         })
+        const connection = await new UserDB().getConnection()
+        const collection = connection.collection('users')
 
         collection.insert(user)
             .then(result => {
                 if(result.result.ok === 1){
-                    res.json({
+                    return res.json({
                         status: 'success',
                         message: 'User created successfully'
                     })
                 } else {
-                    res.json({
+                    return res.json({
                         status: 'error',
                         message: 'Error while creating user'
                     })
@@ -74,8 +71,8 @@ router.post('/register', [
     }
 });
 
-router.post('/login', function (req, res, next) {
-    passport.authenticate('login', {session: false}, (err, user, info) => {
+router.post('/login', (req, res, next) => {
+    passport.authenticate('login', {session: false}, async (err, user, info) => {
         if (err) {
             res.json({
                 status: 'error',
@@ -88,11 +85,13 @@ router.post('/login', function (req, res, next) {
                 message: info.message
             });
         } else {
+            const connection = await new UserDB().getConnection()
+            const collection = connection.collection('users')
             req.logIn(user, err => {
-                User.findOne({
+                collection.findOne({
                     email: user.email,
                 }).then(userr => {
-                    const token = jwt.sign({ id: userr.phone }, jwtConfig.secret);
+                    const token = jwt.sign({ id: userr.email }, jwtConfig.secret);
                     res.status(200).json({
                         auth: true,
                         token: token,

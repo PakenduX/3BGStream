@@ -12,7 +12,13 @@ class Database {
             useNewUrlParser: true,
             useUnifiedTopology: true
         })
-            return mongoose.connection
+            .then(() => {
+                console.log('user database connected successfully')
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        return mongoose.connection
     }
 }
 module.exports = Database

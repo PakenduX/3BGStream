@@ -8,7 +8,8 @@ let PlayList = mongoose.model('PlayList', {
     userId : {
         type: mongoose.ObjectId,
         required: true
-    }
+    },
+    date: Date
 
 });
 

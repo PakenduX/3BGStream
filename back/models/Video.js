@@ -1,7 +1,7 @@
 let mongoose = require('mongoose');
 
 let Video = mongoose.model('Video', {
-    buffer_url: {
+    videoId: {
         type: String,
         required: true
     },
@@ -10,6 +10,10 @@ let Video = mongoose.model('Video', {
         required: true
     },
     playListId : {
+        type: mongoose.ObjectId,
+        required: true
+    },
+    userId : {
         type: mongoose.ObjectId,
         required: true
     }
