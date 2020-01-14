@@ -22,7 +22,5 @@ export class VideoService {
 				})
 			)
 			.subscribe()
-
-
 	}
 }

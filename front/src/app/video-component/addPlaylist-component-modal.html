@@ -1,0 +1,14 @@
+<div style="display: flex; flex-direction: column; flex-wrap: wrap; justify-content: space-around">
+	<mat-radio-group
+		aria-label="Select a playlist"
+		style="display: flex; flex-direction: column"
+		[(ngModel)]="plName"
+	>
+		<mat-radio-button
+			*ngFor="let pl of data.playlists"
+			[value]="pl.nom"
+		>
+			{{pl.nom}}
+		</mat-radio-button>
+	</mat-radio-group>
+</div>

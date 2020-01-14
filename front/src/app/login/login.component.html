@@ -1,0 +1,28 @@
+<div class="container" fxLayoutAlign="center">
+<form class="text-center border border-light p-5" #f="ngForm" (ngSubmit)="loginUser(f.value)">
+    <p class="h4 mb-4">Sign in</p>
+	<input type="email" id="defaultLoginFormEmail" class="form-control mb-4" #usrmail name="email" ngModel placeholder="E-mail">
+    <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" #usrpassword name="password" ngModel placeholder="Password">
+    <div class="d-flex justify-content-around">
+      <div>
+        <a href="">Forgot password?</a>
+      </div>
+    </div>
+    <button mdbBtn color="info" block="true" class="my-4" type="submit">Sign in</button>
+    <p>Not a member?
+      <a href="/register">Register</a>
+    </p>
+    <a type="button" class="light-blue-text mx-2">
+      <mdb-icon fab icon="facebook"></mdb-icon>
+    </a>
+    <a type="button" class="light-blue-text mx-2">
+      <mdb-icon fab icon="twitter"></mdb-icon>
+    </a>
+    <a type="button" class="light-blue-text mx-2">
+      <mdb-icon fab icon="linkedin"></mdb-icon>
+    </a>
+    <a type="button" class="light-blue-text mx-2">
+      <mdb-icon fab icon="github"></mdb-icon>
+    </a>
+  </form>
+</div>

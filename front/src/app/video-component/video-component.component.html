@@ -10,7 +10,13 @@
 		</p>
 	</mat-card-content>
 	<mat-card-actions>
-		<button mat-button (click)="openDialog()">Play</button>
-		<button mat-button>Add to playList</button>
+		<button mat-button (click)="openDialog()">
+			Play
+			<mat-icon>play_circle_filled</mat-icon>
+		</button>
+		<button mat-button (click)="openAddPlDialog()">
+			Add to playList
+			<mat-icon>playlist_add</mat-icon>
+		</button>
 	</mat-card-actions>
 </mat-card>

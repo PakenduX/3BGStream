@@ -1,0 +1,11 @@
+<div class="videoContainer">
+	<div class="playerContainer" *ngFor="let pl of playlists">
+		<app-playlist-component [playlist]="pl"></app-playlist-component>
+	</div>
+	<div>
+		<button mat-button (click)="openDialog()">
+			<mat-icon>add</mat-icon>
+		</button>
+	</div>
+
+</div>

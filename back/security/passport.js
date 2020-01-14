@@ -4,8 +4,8 @@ const passportJWT = require("passport-jwt");
 const JWTStrategy   = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const jwtConfig = require('./Config')
-const bcrypt = require('bcrypt')
-const UserDB = require('../models/userDBConnect')
+const bcrypt = require('bcrypt');
+const { getUser } = require('../models/dbConnection')
 
 /**
  * Passport authentication strategies
@@ -22,10 +22,9 @@ passport.use(
             session: false,
         },
         async (email, password, done) => {
-            const connection = await new UserDB().getConnection()
-            const collection = connection.collection('users')
+            const User = getUser(global['dbConnection']);
             try {
-                collection.findOne({
+                User.findOne({
                     email: email
                 }).then(user => {
                     if (user === null) {
@@ -56,9 +55,9 @@ passport.use(
     'jwt',
     new JWTStrategy(opts, async (jwt_payload, done) => {
         try {
-            const connection = await new UserDB().getConnection()
-            const collection = connection.collection('users')
-            collection.findOne({
+            const User = getUser(global['dbConnection']);
+
+            User.findOne({
                 email: jwt_payload.id,
             }).then(user => {
                 if (user) {

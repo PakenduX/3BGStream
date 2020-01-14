@@ -1,14 +1,11 @@
 const {validationResult, check} = require("express-validator")
 const express = require('express');
 const router = express.Router();
-let User = require('../models/User')
 const bcrypt = require('bcrypt')
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 const jwtConfig = require('../security/Config')
-const auth = require('../security/Authentication')
-const UserDB = require('../models/userDBConnect')
-
+const { getUser } = require('../models/dbConnection')
 /**
  * User routes (register, auth ...)
  * @author 3BGTeam
@@ -22,16 +19,16 @@ router.post('/register', [
     check('nom')
         .isAlpha()
         .withMessage('Le nom ne doit contenir que des lettres')
-        .isLength({min: 3})
-        .withMessage('Le nom doit contenir au moins 3 caractères'),
+        .isLength({min: 2})
+        .withMessage('Le nom doit contenir au moins 2 caractères'),
     check('prenom')
         .isAlpha()
         .withMessage('Le prenom ne doit contenir que des lettres')
-        .isLength({min: 3})
-        .withMessage('Le prénom doit contenir au moins 3 caractères'),
+        .isLength({min: 2})
+        .withMessage('Le prénom doit contenir au moins 2 caractères'),
     check('password')
-        .isLength({min: 6})
-        .withMessage('Le mot de passe doit contenir au moins 6 caractères'),
+        .isLength({min: 8})
+        .withMessage('Le mot de passe doit contenir au moins 8 caractères'),
 
 ], async (req, res) => {
     let errors = validationResult(req);
@@ -39,18 +36,19 @@ router.post('/register', [
         return res.json({ errors: errors.array() });
     } else {
         const password = bcrypt.hashSync(req.body.password, 10)
+        const User = getUser(global['dbConnection']);
+
         let user = new User({
             nom: req.body.nom,
             prenom: req.body.prenom,
             email: req.body.email,
             password: password
         })
-        const connection = await new UserDB().getConnection()
-        const collection = connection.collection('users')
 
-        collection.insert(user)
+        user
+            .save()
             .then(result => {
-                if(result.result.ok === 1){
+                if(result){
                     return res.json({
                         status: 'success',
                         message: 'User created successfully'
@@ -74,21 +72,21 @@ router.post('/register', [
 router.post('/login', (req, res, next) => {
     passport.authenticate('login', {session: false}, async (err, user, info) => {
         if (err) {
-            res.json({
+            return res.json({
                 status: 'error',
                 message: err
             });
         }
         if (info !== undefined) {
-            res.json({
+            return res.json({
                 status: 'error',
                 message: info.message
             });
         } else {
-            const connection = await new UserDB().getConnection()
-            const collection = connection.collection('users')
+            const User = getUser(global['dbConnection']);
+
             req.logIn(user, err => {
-                collection.findOne({
+                User.findOne({
                     email: user.email,
                 }).then(userr => {
                     const token = jwt.sign({ id: userr.email }, jwtConfig.secret);

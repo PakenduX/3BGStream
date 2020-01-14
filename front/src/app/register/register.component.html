@@ -1,0 +1,25 @@
+<div fxLayoutAlign="center" class="container">
+	<form #f="ngForm" class="text-center border border-light p-5" (ngSubmit)="registerUser(f.value)">
+		<p class="h4 mb-4">Sign up</p>
+		<div class="form-row mb-4">
+		  <div class="col">
+			<input type="text" id="defaultRegisterFormFirstName" class="form-control"  #usrfirstname name="nom" ngModel placeholder="First name">
+		  </div>
+		  <div class="col">
+			<input type="text" id="defaultRegisterFormLastName" class="form-control" #usrlastname name="prenom" ngModel placeholder="Last name">
+		  </div>
+		</div>
+		<input type="email" id="defaultRegisterFormEmail" class="form-control mb-4" #usremail name="email" ngModel placeholder="E-mail">
+		<input type="password" id="defaultRegisterFormPassword" class="form-control" #usrpassword name="password" ngModel placeholder="Password" aria-describedby="defaultRegisterFormPasswordHelpBlock">
+		<small id="defaultRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
+		  At least 8 characters
+		</small>
+
+
+		<!-- Sign up button -->
+		<button mdbBtn color="info" block="true" class="my-4" type="submit">Sign in</button>
+
+		<hr>
+
+	  </form>
+</div>

@@ -1,7 +1,49 @@
 <mat-toolbar color="primary">
-  <h1>3BGStream</h1>
-  <button mat-button routerLink="/search">Search</button>
-  <button mat-button routerLink="/search">Playlist</button>
+	<h1>3BGStream</h1>
+	<span class="filler"></span>
+	<button
+		*ngIf="isConnected"
+		mat-button
+		routerLink="/search"
+		routerLinkActive="routerActive"
+	>
+		<mat-icon>search</mat-icon>
+		Search
+	</button>
+	<button
+		*ngIf="isConnected"
+		mat-button
+		routerLink="/playlist"
+		routerLinkActive="routerActive"
+	>
+		Playlist
+	</button>
+	<button
+		*ngIf="!isConnected"
+		mat-button routerLink="/"
+		routerLinkActive="routerActive"
+	>
+		<mat-icon>account_circle</mat-icon>
+		Login
+	</button>
+	<button
+		*ngIf="isConnected"
+		mat-button
+		routerLink="/profile"
+		routerLinkActive="routerActive"
+	>
+		<mat-icon>account_circle</mat-icon>
+		Profile
+	</button>
+	<button
+		*ngIf="isConnected"
+		mat-button (click)="logout()"
+		routerLinkActive="routerActive"
+	>
+		<mat-icon>logout</mat-icon>
+		Logout
+	</button>
 </mat-toolbar>
-<app-search></app-search>
-<router-outlet></router-outlet>
+<main>
+	<router-outlet></router-outlet>
+</main>

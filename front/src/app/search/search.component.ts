@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {VideoService} from "../services/video-service";
 import {map} from "rxjs/operators";
 import {Subscription} from "rxjs";
+import {PlaylistService} from "../services/playlist.service";
 
     @Component({
         selector: 'app-search',
@@ -11,9 +12,12 @@ import {Subscription} from "rxjs";
 
 export class SearchComponent implements OnInit, OnDestroy {
 
-	videos = []
-	videosSubscription: Subscription
-    constructor(private videoService: VideoService ) { }
+	videos = [];
+	public playlists: any;
+	videosSubscription: Subscription;
+	public playlistSubscription: Subscription;
+	
+    constructor(private videoService: VideoService, private playlistService: PlaylistService ) { }
 
     ngOnInit() {
     	this.videosSubscription = this.videoService.videos$
@@ -21,14 +25,21 @@ export class SearchComponent implements OnInit, OnDestroy {
     			map((response) => this.videos = response)
 			)
 			.subscribe()
+
+		this.playlistSubscription = this.playlistService.playlists$
+			.pipe(
+				map((response) => this.playlists = response)
+			)
+			.subscribe();
+
+		this.playlistService.getPlaylists();
     }
 
     ngOnDestroy() {
 		this.videosSubscription.unsubscribe()
 	}
 
-		search(value: string) {
-		console.log(value)
+	search(value: string) {
 		this.videoService.search(value)
 	}
 

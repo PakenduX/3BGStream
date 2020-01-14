@@ -6,7 +6,6 @@ const searchYoutube = require('youtube-api-v3-search')
 const config = require('../security/Config')
 const fs = require('fs');
 const ytdl = require('ytdl-core');
-const videoDB = require('../models/videoDBConnect')
 const Video = require('../models/Video')
 
 /**
@@ -15,14 +14,12 @@ const Video = require('../models/Video')
  * @date oct 25th 2019
  */
 
-const connection = new videoDB().getConnection()
-const collection = connection.collection('videos')
-
 router.post('/search', async(req, res) => {
     const options = {
         q: req.body.query,
         part:'snippet',
-        type:'video'
+        type:'video',
+        maxResults: 30
     }
 
     let result = await searchYoutube(config.YOUTUBE_API_KEY, options)
@@ -30,7 +27,7 @@ router.post('/search', async(req, res) => {
 
 });
 
-router.post('/save', (req, res) => {
+router.post('/save', async (req, res) => {
     const { userId, videoId, playListId } = req.body
     const path = 'uploads/' + userId + '-' + videoId + '-' + 'video.flv'
 
@@ -40,6 +37,9 @@ router.post('/save', (req, res) => {
         playListId: playListId,
         userId: userId
     })
+
+    const connection = ''
+    const collection = connection.collection('videos')
 
     ytdl(`${config.youtube_core_url}=${videoId}`)
         .pipe(

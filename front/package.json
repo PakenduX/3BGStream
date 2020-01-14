@@ -23,6 +23,8 @@
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
     "@angular/youtube-player": "^8.2.3",
+    "@auth0/angular-jwt": "^3.0.1",
+    "angular-bootstrap-md": "^8.8.0",
     "faker": "^4.1.0",
     "hammerjs": "^2.0.8",
     "json-server": "^0.15.1",

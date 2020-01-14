@@ -1,0 +1,10 @@
+<div style="display: flex; flex-direction: column; flex-wrap: wrap; justify-content: space-around">
+	<mat-form-field>
+		<input
+			matInput
+			placeholder="Add new"
+			#query
+			(keyup.enter)="addPlayList(query.value)"
+		>
+	</mat-form-field>
+</div>
