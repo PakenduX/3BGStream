@@ -1,5 +1,5 @@
 import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {Subscription} from "rxjs";
 import {PlaylistService} from "../services/playlist.service";
@@ -14,6 +14,7 @@ export class VideoComponentComponent implements OnInit, OnDestroy{
 
 	@Input() video: any;
 	public playlists: any;
+	public dialogRef: any;
 	public playlistSubscription: Subscription;
 
   constructor(public dialog: MatDialog, private playlistService: PlaylistService) { }
@@ -37,8 +38,8 @@ export class VideoComponentComponent implements OnInit, OnDestroy{
 	}
 
 	openAddPlDialog() {
-		const dialogRef = this.dialog.open(AddPlaylistRadioButtonComponentModal, {data: {video: this.video, playlists: this.playlists}});
-		dialogRef.afterClosed().subscribe(result => {
+		this.dialogRef = this.dialog.open(AddPlaylistRadioButtonComponentModal, {data: {video: this.video, playlists: this.playlists}});
+		this.dialogRef.afterClosed().subscribe(result => {
 			console.log(`Dialog result: ${result}`);
 		});
 	}
@@ -61,8 +62,21 @@ export class VideoComponentModal {
 	templateUrl: 'addPlaylist-component-modal.html',
 })
 export class AddPlaylistRadioButtonComponentModal {
-	plName: string;
-	constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
-		console.log(this.plName)
+	plId: string;
+	constructor(
+		@Inject(MAT_DIALOG_DATA) public data: any,
+		public dialogRef: MatDialogRef<VideoComponentComponent>,
+		private playlistService: PlaylistService
+	) {}
+
+	addToPlaylist(){
+		this.playlistService.addVideoToPl(
+			this.data.video.id.videoId,
+			this.plId,
+			this.data.video.snippet.title,
+			this.data.video.snippet.thumbnails.high.url,
+			this.data.video.snippet.description
+		);
+		this.dialogRef.close();
 	}
 }

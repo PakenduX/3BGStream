@@ -3,11 +3,11 @@ let mongoose = require('mongoose');
 let Video = mongoose.model('Video', {
     videoId: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     storage_url: {
         type: String,
-        required: true
     },
     playListId : {
         type: mongoose.ObjectId,
@@ -15,6 +15,18 @@ let Video = mongoose.model('Video', {
     },
     userId : {
         type: mongoose.ObjectId,
+        required: true
+    },
+    title : {
+        type: String,
+        required: true
+    },
+    thumbnail: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
         required: true
     }
 

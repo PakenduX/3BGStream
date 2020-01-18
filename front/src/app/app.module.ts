@@ -29,7 +29,8 @@ import {JwtModule, JwtModuleOptions} from "@auth0/angular-jwt";
 import { PlaylistComponent } from './playlist/playlist.component';
 import { PlaylistComponentComponent } from './playlist-component/playlist-component.component';
 import { VideoPlayerComponent } from './video-player/video-player.component';
-import { AddPlaylistComponentModal } from './playlist/playlist.component'
+import { AddPlaylistComponentModal } from './playlist/playlist.component';
+import { PlaylistExpandedComponent } from './playlist-expanded/playlist-expanded.component'
 
 const JWT_Module_Options: JwtModuleOptions = {
 	config: {
@@ -49,7 +50,8 @@ const JWT_Module_Options: JwtModuleOptions = {
 	RegisterComponent,
 	PlaylistComponent,
 	PlaylistComponentComponent,
-	VideoPlayerComponent
+	VideoPlayerComponent,
+	PlaylistExpandedComponent
   ],
 	entryComponents: [VideoComponentModal, AddPlaylistComponentModal, AddPlaylistRadioButtonComponentModal],
 	imports: [

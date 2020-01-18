@@ -1,12 +1,16 @@
 <mat-card class="video-card">
 	<mat-card-header>
 		<div mat-card-avatar class="video-header-image"></div>
-		<mat-card-title>{{video.snippet.title}}</mat-card-title>
+		<mat-card-title>{{video.snippet ? video.snippet.title : video.title}}</mat-card-title>
 	</mat-card-header>
-	<img mat-card-image src={{video.snippet.thumbnails.high.url}} alt={{video.snippet.title}}>
+	<img
+		mat-card-image
+		src="{{video.snippet ? video.snippet.thumbnails.high.url : video.thumbnail}}"
+		alt="{{video.snippet ? video.snippet.title : video.title}}"
+	>
 	<mat-card-content>
 		<p>
-			{{video.snippet.description}}
+			{{video.snippet ? video.snippet.description : video.description}}
 		</p>
 	</mat-card-content>
 	<mat-card-actions>

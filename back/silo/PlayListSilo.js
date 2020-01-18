@@ -15,7 +15,7 @@ router.post('/create', async (req, res) => {
         nom: req.body.nom,
         date: new Date(),
         userId: req.body.userId
-    })
+    });
 
 
     pl
@@ -27,7 +27,6 @@ router.post('/create', async (req, res) => {
                     message: 'Playlist created successfully'
                 })
             } else {
-                console.log('icicici')
                 return res.json({
                     status: 'error',
                     message: 'Error while creating your playlist'
@@ -35,7 +34,6 @@ router.post('/create', async (req, res) => {
             }
         })
         .catch(error => {
-            console.log(error)
             return res.json({
                 status: 'error',
                 message: 'Error server while creating your playlist'
@@ -60,6 +58,34 @@ router.get('/all/:userId', async (req, res) => {
                 message: 'Error server while fetching your playlists'
             })
         })
+});
+
+router.delete('/delete/:id', async (req, res) => {
+    const PL = getPlayList(global['dbConnection']);
+
+    PL.deleteOne({
+        _id: req.params.id
+    })
+        .then(response => {
+            if(response.ok === 1) {
+                return res.json({
+                    'status': 'success',
+                    'message': 'Your playlist has been deleted successfully'
+                });
+            } else {
+                return res.json({
+                    'status' : 'error',
+                    'message' : 'Error while deleting your playlist'
+                });
+            }
+        })
+        .catch(error => {
+            console.log(error);
+            return res.json({
+                'status' : 'error',
+                'message' : 'Error while deleting your playlist'
+            });
+        });
 })
 
 module.exports = router;

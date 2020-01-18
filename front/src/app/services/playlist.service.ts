@@ -46,4 +46,42 @@ export class PlaylistService {
 			)
 			.subscribe()
 	}
+
+	addVideoToPl(videoId, plId, title, thumbnail, description){
+		let user = JSON.parse(localStorage.getItem('user'));
+		let data = {
+			userId: user._id,
+			playListId: plId,
+			videoId: videoId,
+			title: title,
+			description: description,
+			thumbnail: thumbnail
+		};
+
+		this.httpclient.post(`${SERVER_ADDRESS}/video/save`, data)
+			.pipe(
+				map((response: Response) => {
+					this.snackBar.open(response.message, 'Ok', {
+						duration: 5000
+					});
+				})
+			)
+			.subscribe()
+	}
+
+	deletePl(id){
+		this.httpclient.delete(`${SERVER_ADDRESS}/playlist/delete/${id}`)
+			.pipe(
+				map((response: Response) => {
+					if(response.status === 'error'){
+						this.snackBar.open(response.message, 'Ok', {
+							duration: 5000
+						});
+					} else {
+						window.location.reload();
+					}
+				})
+			)
+			.subscribe()
+	}
 }

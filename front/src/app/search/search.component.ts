@@ -16,7 +16,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 	public playlists: any;
 	videosSubscription: Subscription;
 	public playlistSubscription: Subscription;
-	
+
     constructor(private videoService: VideoService, private playlistService: PlaylistService ) { }
 
     ngOnInit() {
@@ -24,7 +24,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 			.pipe(
     			map((response) => this.videos = response)
 			)
-			.subscribe()
+			.subscribe();
 
 		this.playlistSubscription = this.playlistService.playlists$
 			.pipe(

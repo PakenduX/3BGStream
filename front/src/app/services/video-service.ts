@@ -11,6 +11,7 @@ import { Video } from "../models/Video";
 export class VideoService {
 
 	public videos$: BehaviorSubject<any[]> = new BehaviorSubject([]);
+	public plVideos$: BehaviorSubject<any[]> = new BehaviorSubject([]);
 
   	constructor(private httpClient: HttpClient) {}
 
@@ -19,6 +20,16 @@ export class VideoService {
 			.pipe(
 				map((response: Video) => {
 					this.videos$.next(response.items)
+				})
+			)
+			.subscribe()
+	}
+
+	getPlVideos(plId){
+		this.httpClient.get(`${SERVER_ADDRESS}/video/all/${plId}`)
+			.pipe(
+				map((response: []) => {
+					this.plVideos$.next(response)
 				})
 			)
 			.subscribe()

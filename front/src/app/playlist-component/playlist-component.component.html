@@ -7,10 +7,10 @@
 		{{playlist.date | date}}
 	</mat-card-content>
 	<mat-card-actions>
-		<button mat-button>
+		<button mat-button (click)="goToPl()">
 			Ouvrir
 		</button>
-		<button mat-button>
+		<button mat-button (click)="delete()">
 			Supprimer
 		</button>
 	</mat-card-actions>

@@ -1,7 +1,7 @@
-<h2 mat-dialog-title>{{data.snippet.title}}</h2>
+<h2 mat-dialog-title>{{data.snippet ? data.snippet.title : data.title}}</h2>
 <mat-dialog-content class="mat-typography">
 	<youtube-player
-		videoId={{data.id.videoId}}
+		videoId="{{data.id ? data.id.videoId : data.videoId}}"
 		suggestedQuality="highres">
 	</youtube-player>
 </mat-dialog-content>

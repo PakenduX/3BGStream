@@ -2,11 +2,12 @@
 	<mat-radio-group
 		aria-label="Select a playlist"
 		style="display: flex; flex-direction: column"
-		[(ngModel)]="plName"
+		[(ngModel)]="plId"
+		(ngModelChange)="addToPlaylist()"
 	>
 		<mat-radio-button
 			*ngFor="let pl of data.playlists"
-			[value]="pl.nom"
+			[value]="pl._id"
 		>
 			{{pl.nom}}
 		</mat-radio-button>

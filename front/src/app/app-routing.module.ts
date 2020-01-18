@@ -5,6 +5,7 @@ import {RegisterComponent} from "./register/register.component";
 import {SearchComponent} from "./search/search.component";
 import { AuthGuardService as AuthGuard } from "./services/auth-guard.service";
 import {PlaylistComponent} from "./playlist/playlist.component";
+import {PlaylistExpandedComponent} from "./playlist-expanded/playlist-expanded.component";
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -15,6 +16,11 @@ const routes: Routes = [
   }, {
 		path: 'playlist',
 		component: PlaylistComponent,
+		canActivate: [AuthGuard]
+	},
+	{
+		path: 'playlist-expanded',
+		component: PlaylistExpandedComponent,
 		canActivate: [AuthGuard]
 	},
   { path: 'register', component: RegisterComponent},
