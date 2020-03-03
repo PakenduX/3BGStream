@@ -11,7 +11,7 @@ import {map} from "rxjs/operators";
 })
 export class AppComponent implements OnInit, OnDestroy{
 	isConnected: boolean
-	isConnectedSubscription: Subscription
+	isConnectedSubscription: Subscription;
 
 	constructor(private router: Router, private authService: AuthService) { }
 

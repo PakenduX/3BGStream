@@ -28,15 +28,6 @@
 	</button>
 	<button
 		*ngIf="isConnected"
-		mat-button
-		routerLink="/profile"
-		routerLinkActive="routerActive"
-	>
-		<mat-icon>account_circle</mat-icon>
-		Profile
-	</button>
-	<button
-		*ngIf="isConnected"
 		mat-button (click)="logout()"
 		routerLinkActive="routerActive"
 	>
